@@ -1,0 +1,48 @@
+include includes/head.pug
+include includes/navbar.pug
+
++head('/styles/style_auth.css')
++navbar(JWT)
+
+main
+  .wrapper
+    .row.mb-3
+      .col-12
+        .card
+          .head Добавление нового издателя
+          .body
+            form(onsubmit="addPublisher(this); return false;")
+              .row.mb-3
+                .col-6
+                  input(class='input' name='name' type="text" placeholder='Имя..' required)
+                .col-6
+                  input(class='input' name='address' type="text" placeholder='Адрес..' required)
+              .row
+                .col-3
+                  button.btn.btn__red(style='width:100%' type="reset" value="Reset") Очистить
+                .col-3.offset-6
+                  button.btn.btn__blue(style='width:100%' type="submit" value="Submit") Отправить
+    .row
+      .col-6
+        .card
+          .head Издатели
+          .body
+            table
+              tr
+                td ID
+                td Имя
+                td Адрес
+                td
+              each element in publishers
+                tr(onclick=`booksOfPublisher(${element.ID})`)
+                  td= element.ID
+                  td= element.name
+                  td= element.address
+                  td(class='action')
+                    img(class="mr-2" src="/icons/delete.svg" onclick=`delPublisher(${element.ID})`)
+                    img(src="/icons/edit.svg" onclick=`editPublisher(${element.ID},"${element.name}","${element.address}")`)
+      .col-6
+        .card
+          .head Книги издателя
+          .body#booksOnHands
+            p Выберите издателя из списка

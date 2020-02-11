@@ -1,0 +1,168 @@
+scalar Date
+scalar DateTime
+
+type Query_boolRes{
+  status: Boolean!
+  log: String
+}
+
+enum book_status{
+  stock
+  hands
+}
+
+type Book {
+  ID: ID!
+
+  _publisherID: ID!
+  _authorID: ID!
+  _libraryID: ID!
+  _ownerID: ID
+
+  name: String!
+  status: book_status!
+  date: Date!
+
+  author: Author!
+  publisher: Publisher!
+  library: Library!
+  owner: Client
+}
+
+type Client{
+  ID: ID!
+
+  name: String!
+  email: String!
+  phone: String!
+
+  books: [Book]
+}
+
+type Author{
+  ID: ID!
+
+  name: String!
+  birth: Date!
+
+  books: [Book]
+}
+
+type Publisher{
+  ID: ID!
+
+  name: String!
+  address: String!
+
+  books: [Book]
+}
+
+type Library{
+  ID: ID!
+
+  address: String!
+  phone: String!
+  email: String!
+
+  books: [Book]
+}
+
+
+
+type Query {
+  "Получить все книги"
+  books: [Book]
+  "Получить все библиотеки"
+  libraries: [Library]
+  "Получить всех писателей"
+  authors: [Author]
+  "Получить всех издателей"
+  publishers: [Publisher]
+  "Получить всех клиентов"
+  clients: [Client]
+
+  "Получить книгу по ID"
+  book(id: Int!): Book
+  "Получить библиотеку по ID"
+  library(id: Int!): Library
+  "Получить писателя по ID"
+  author(id: Int!): Author
+  "Получить издателя по ID"
+  publisher(id: Int!): Publisher
+  "Получить клиента по ID"
+  client(id: Int!): Client
+}
+
+type Mutation{
+  "Добавить книгу"
+  addBook(devKey:String!, data: Book_input!): ID
+  "Изменить книгу"
+  updateBook(devKey: String!, data: Book_input!, id: ID!): Query_boolRes
+  "Удалить книгу"
+  deleteBook(devKey: String!, id: ID!): Query_boolRes
+
+  "Добавить библиотеку"
+  addLibrary(devKey:String!, data: Library_input!): ID
+  "Изменить библиотеку"
+  updateLibrary(devKey: String!, data: Library_input!, id: ID!): Query_boolRes
+  "Удалить библиотеку"
+  deleteLibrary(devKey: String!, id: ID!): Query_boolRes
+
+  "Добавить писателя"
+  addAuthor(devKey:String!, data: Author_input!): ID
+  "Изменить писателя"
+  updateAuthor(devKey: String!, data: Author_input!, id: ID!): Query_boolRes
+  "Удалить писателя"
+  deleteAuthor(devKey: String!, id: ID!): Query_boolRes
+
+  "Добавить издателя"
+  addPublisher(devKey:String!, data: Publisher_input!): ID
+  "Изменить издателя"
+  updatePublisher(devKey: String!, data: Publisher_input!, id: ID!): Query_boolRes
+  "Удалить издателя"
+  deletePublisher(devKey: String!, id: ID!): Query_boolRes
+
+  "Добавить клиента"
+  addClient(devKey:String!, data: Client_input!): ID
+  "Изменить клиента"
+  updateClient(devKey: String!, data: Client_input!, id: ID!): Query_boolRes
+  "Удалить клиента"
+  deleteClient(devKey: String!, id: ID!): Query_boolRes
+
+  "Добавить клиента"
+  takeBook(devKey:String!, client: ID!, book: ID!): Query_boolRes
+  "Изменить клиента"
+  releaseBook(devKey: String!, book: ID!): Query_boolRes
+}
+
+input Book_input {
+  _publisherID: ID
+  _authorID: ID
+  _libraryID: ID
+  _ownerID: ID
+
+  name: String
+  date: Date
+}
+
+input Library_input{
+  address: String
+  phone: String
+  email: String
+}
+
+input Author_input{
+  name: String
+  birth: Date
+}
+
+input Publisher_input{
+  name: String
+  address: String
+}
+
+input Client_input{
+  name: String
+  email: String
+  phone: String
+}

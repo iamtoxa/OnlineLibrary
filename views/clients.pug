@@ -1,0 +1,52 @@
+include includes/head.pug
+include includes/navbar.pug
+
++head('/styles/style_auth.css')
++navbar(JWT)
+
+main
+  .wrapper
+    .row.mb-3
+      .col-12
+        .card
+          .head Добавление нового клиента
+          .body
+            form(onsubmit="addClient(this); return false;")
+              .row.mb-3
+                .col-4
+                  input(class='input' name='name' type="text" placeholder='Имя..' required)
+                .col-4
+                  input(class='input' name='email' type="text" placeholder='Почта..' required)
+                .col-4
+                  input(class='input' name='phone' type="text" placeholder='Телефон..' required)
+              .row
+                .col-3
+                  button.btn.btn__red(style='width:100%' type="reset" value="Reset") Очистить
+                .col-3.offset-6
+                  button.btn.btn__blue(style='width:100%' type="submit" value="Submit") Отправить
+    .row
+      .col-6
+        .card
+          .head Клиенты
+          .body
+            table
+              tr
+                td ID
+                td Имя
+                td Почта
+                td Телефон
+                td
+              each element in clients
+                tr(onclick=`booksOnHands(${element.ID})`)
+                  td= element.ID
+                  td= element.name
+                  td= element.email
+                  td= element.phone
+                  td(class='action')
+                    img(class="mr-2" src="/icons/delete.svg" onclick=`delClient(${element.ID})`)
+                    img(src="/icons/edit.svg" onclick=`editClient(${element.ID},"${element.name}","${element.email}","${element.phone}")`)
+      .col-6
+        .card
+          .head Книги на руках читателя
+          .body#booksOnHands
+            p Выберите читателя из списка
